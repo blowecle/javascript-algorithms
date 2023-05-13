@@ -1,3 +1,5 @@
+//come back to this one and review the pattern table
+
 /**
  * @see https://www.youtube.com/watch?v=GTJr8OvyEVQ
  * @param {string} word
@@ -33,55 +35,27 @@ export default function knuthMorrisPratt(text, word) {
   if (word.length === 0) {
     return 0;
   }
-  
-  if (text === word){
-    return 0;
-  }
-  
-  let start = 0;
-  let textSlice;
-  while(start <= text.length - word.length){
-    console.log('testing: ', word)
-    console.log('start is: ', start)
-    textSlice = text.slice(start);
-    if(word.length > textSlice.length){
-      return -1;
-    }
 
-    if(word === textSlice){
-      return start;
-    }
+  let textIndex = 0;
+  let wordIndex = 0;
 
-    for(let i = 0; i < word.length; i++){
-      console.log('inside for loop')
-      console.log('comparing ', word[i], ' to ', text[start + i])
-      if(word[i] !== text[start + i]){
-        if(i === 0){
-          console.log('incrementing start')
-          start++;
-          continue;
-        } else {
-          start += i;
-        console.log('start is now ', start)
-        continue;
-        }
-      } else if(i === word.length - 1){
-        return start;
+  const patternTable = buildPatternTable(word);
+
+  while (textIndex < text.length) {
+    if (text[textIndex] === word[wordIndex]) {
+      // We've found a match.
+      if (wordIndex === word.length - 1) {
+        return (textIndex - word.length) + 1;
       }
-
+      wordIndex += 1;
+      textIndex += 1;
+    } else if (wordIndex > 0) {
+      wordIndex = patternTable[wordIndex - 1];
+    } else {
+      // wordIndex = 0;
+      textIndex += 1;
     }
-    
   }
 
   return -1;
 }
-
-knuthMorrisPratt('', '')
-knuthMorrisPratt('a', '')
-knuthMorrisPratt('a', 'a')
-knuthMorrisPratt('abcbcglx', 'abca')
-knuthMorrisPratt('abcbcglx', 'bcgl')
-knuthMorrisPratt('abcxabcdabxabcdabcdabcy', 'abcdabcy')
-knuthMorrisPratt('abcxabcdabxabcdabcdabcy', 'abcdabca')
-knuthMorrisPratt('abcxabcdabxaabcdabcabcdabcdabcy', 'abcdabca')
-knuthMorrisPratt('abcxabcdabxaabaabaaaabcdabcdabcy', 'aabaabaaa')
