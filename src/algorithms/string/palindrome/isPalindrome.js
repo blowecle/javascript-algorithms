@@ -4,16 +4,15 @@
  */
 
 export default function isPalindrome(string) {
-  let left = 0;
-  let right = string.length - 1;
+  let leftPointer = 0;
+  let rightPointer = string.length - 1;
 
-  while (left < right) {
-    if (string[left] !== string[right]) {
+  while(leftPointer < string.length / 2){
+    if(string[leftPointer] !== string[rightPointer]){
       return false;
     }
-    left += 1;
-    right -= 1;
+    leftPointer++;
+    rightPointer--;
   }
-
   return true;
 }
