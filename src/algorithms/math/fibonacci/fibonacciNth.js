@@ -5,21 +5,15 @@
  * @return {number}
  */
 export default function fibonacciNth(n) {
-  let currentValue = 1;
-  let previousValue = 0;
+  let current = 1;
+  let next = 1;
+  let temp;
 
-  if (n === 1) {
-    return 1;
+  for(let i = 1; i < n; i++){
+    temp = next;
+    next += current;
+    current = temp;
   }
 
-  let iterationsCounter = n - 1;
-
-  while (iterationsCounter) {
-    currentValue += previousValue;
-    previousValue = currentValue - previousValue;
-
-    iterationsCounter -= 1;
-  }
-
-  return currentValue;
+  return current;
 }
